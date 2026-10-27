@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="22" fill="#1e1e1e"/>
+  <!-- tree rows: header, sub-header, cell, cell -->
+  <rect x="38" y="22" width="70" height="12" rx="6" fill="#73c991"/>
+  <path d="M18 20 L31 28 L18 36 Z" fill="#73c991"/>
+  <rect x="50" y="46" width="52" height="12" rx="6" fill="#6e7681"/>
+  <rect x="50" y="70" width="58" height="12" rx="6" fill="#73c991"/>
+  <path d="M32 68 L45 76 L32 84 Z" fill="#73c991"/>
+  <rect x="62" y="94" width="42" height="12" rx="6" fill="#6e7681"/>
+</svg>

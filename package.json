@@ -1,0 +1,409 @@
+{
+  "name": "notebook-execution-outline",
+  "displayName": "Notebook Execution Outline",
+  "description": "Notebook outline that highlights every markdown header above the cell that is currently executing, and marks where a run failed.",
+  "version": "0.4.1",
+  "publisher": "ihor-bobak",
+  "author": "Ihor Bobak",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ibobak/notebook-execution-outline.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ibobak/notebook-execution-outline/issues"
+  },
+  "homepage": "https://github.com/ibobak/notebook-execution-outline#readme",
+  "keywords": [
+    "notebook",
+    "jupyter",
+    "outline",
+    "execution",
+    "markdown headers"
+  ],
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Notebooks",
+    "Other"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onNotebook:*"
+  ],
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "notebookExecutionOutline",
+          "name": "Notebook Execution",
+          "icon": "$(list-tree)"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "notebookExecutionOutline.refresh",
+        "title": "Refresh",
+        "category": "Notebook Execution Outline",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "notebookExecutionOutline.resetExecutionState",
+        "title": "Reset Execution Highlighting",
+        "category": "Notebook Execution Outline",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "notebookExecutionOutline.revealCell",
+        "title": "Reveal Cell",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.followCursor.on",
+        "title": "✓ Follow Cursor",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.followCursor.off",
+        "title": "  Follow Cursor",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.filterOnType.on",
+        "title": "✓ Filter on Type",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.filterOnType.off",
+        "title": "  Filter on Type",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.sortBy.position.on",
+        "title": "✓ Sort By: Position",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.sortBy.position.off",
+        "title": "  Sort By: Position",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.sortBy.name.on",
+        "title": "✓ Sort By: Name",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.sortBy.name.off",
+        "title": "  Sort By: Name",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.sortBy.category.on",
+        "title": "✓ Sort By: Category",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.sortBy.category.off",
+        "title": "  Sort By: Category",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.showMarkdownHeadersOnly.on",
+        "title": "✓ Markdown Headers Only",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.showMarkdownHeadersOnly.off",
+        "title": "  Markdown Headers Only",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.showCodeCells.on",
+        "title": "✓ Code Cells",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.showCodeCells.off",
+        "title": "  Code Cells",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.showCodeCellSymbols.on",
+        "title": "✓ Code Cell Symbols",
+        "category": "Notebook Execution Outline"
+      },
+      {
+        "command": "notebookExecutionOutline.showCodeCellSymbols.off",
+        "title": "  Code Cell Symbols",
+        "category": "Notebook Execution Outline"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "submenu": "notebookExecutionOutline.filterMenu",
+          "when": "view == notebookExecutionOutline",
+          "group": "navigation@0"
+        },
+        {
+          "command": "notebookExecutionOutline.refresh",
+          "when": "view == notebookExecutionOutline",
+          "group": "navigation@1"
+        },
+        {
+          "command": "notebookExecutionOutline.resetExecutionState",
+          "when": "view == notebookExecutionOutline",
+          "group": "navigation@2"
+        },
+        {
+          "command": "notebookExecutionOutline.followCursor.on",
+          "when": "view == notebookExecutionOutline && config.notebookExecutionOutline.followCursor",
+          "group": "1_options@1"
+        },
+        {
+          "command": "notebookExecutionOutline.followCursor.off",
+          "when": "view == notebookExecutionOutline && !(config.notebookExecutionOutline.followCursor)",
+          "group": "1_options@1"
+        },
+        {
+          "command": "notebookExecutionOutline.filterOnType.on",
+          "when": "view == notebookExecutionOutline && config.workbench.list.defaultFindMode == 'filter'",
+          "group": "1_options@2"
+        },
+        {
+          "command": "notebookExecutionOutline.filterOnType.off",
+          "when": "view == notebookExecutionOutline && !(config.workbench.list.defaultFindMode == 'filter')",
+          "group": "1_options@2"
+        },
+        {
+          "command": "notebookExecutionOutline.sortBy.position.on",
+          "when": "view == notebookExecutionOutline && config.notebookExecutionOutline.sortBy == 'position'",
+          "group": "2_sort@1"
+        },
+        {
+          "command": "notebookExecutionOutline.sortBy.position.off",
+          "when": "view == notebookExecutionOutline && !(config.notebookExecutionOutline.sortBy == 'position')",
+          "group": "2_sort@1"
+        },
+        {
+          "command": "notebookExecutionOutline.sortBy.name.on",
+          "when": "view == notebookExecutionOutline && config.notebookExecutionOutline.sortBy == 'name'",
+          "group": "2_sort@2"
+        },
+        {
+          "command": "notebookExecutionOutline.sortBy.name.off",
+          "when": "view == notebookExecutionOutline && !(config.notebookExecutionOutline.sortBy == 'name')",
+          "group": "2_sort@2"
+        },
+        {
+          "command": "notebookExecutionOutline.sortBy.category.on",
+          "when": "view == notebookExecutionOutline && config.notebookExecutionOutline.sortBy == 'category'",
+          "group": "2_sort@3"
+        },
+        {
+          "command": "notebookExecutionOutline.sortBy.category.off",
+          "when": "view == notebookExecutionOutline && !(config.notebookExecutionOutline.sortBy == 'category')",
+          "group": "2_sort@3"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "notebookExecutionOutline.revealCell",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.followCursor.on",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.followCursor.off",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.filterOnType.on",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.filterOnType.off",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.sortBy.position.on",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.sortBy.position.off",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.sortBy.name.on",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.sortBy.name.off",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.sortBy.category.on",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.sortBy.category.off",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.showMarkdownHeadersOnly.on",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.showMarkdownHeadersOnly.off",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.showCodeCells.on",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.showCodeCells.off",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.showCodeCellSymbols.on",
+          "when": "false"
+        },
+        {
+          "command": "notebookExecutionOutline.showCodeCellSymbols.off",
+          "when": "false"
+        }
+      ],
+      "notebookExecutionOutline.filterMenu": [
+        {
+          "command": "notebookExecutionOutline.showMarkdownHeadersOnly.on",
+          "when": "config.notebookExecutionOutline.showMarkdownHeadersOnly",
+          "group": "0_markdown_cells@1"
+        },
+        {
+          "command": "notebookExecutionOutline.showMarkdownHeadersOnly.off",
+          "when": "!config.notebookExecutionOutline.showMarkdownHeadersOnly",
+          "group": "0_markdown_cells@1"
+        },
+        {
+          "command": "notebookExecutionOutline.showCodeCells.on",
+          "when": "config.notebookExecutionOutline.showCodeCells",
+          "group": "1_code_cells@1"
+        },
+        {
+          "command": "notebookExecutionOutline.showCodeCells.off",
+          "when": "!config.notebookExecutionOutline.showCodeCells",
+          "group": "1_code_cells@1"
+        },
+        {
+          "command": "notebookExecutionOutline.showCodeCellSymbols.on",
+          "when": "config.notebookExecutionOutline.showCodeCellSymbols",
+          "group": "1_code_cells@2"
+        },
+        {
+          "command": "notebookExecutionOutline.showCodeCellSymbols.off",
+          "when": "!config.notebookExecutionOutline.showCodeCellSymbols",
+          "group": "1_code_cells@2"
+        }
+      ]
+    },
+    "colors": [
+      {
+        "id": "notebookExecutionOutline.executingForeground",
+        "description": "Label and arrow color of headers (and the cell) where a notebook cell is executing.",
+        "defaults": {
+          "dark": "#73c991",
+          "light": "#388a34",
+          "highContrast": "#73c991",
+          "highContrastLight": "#14610f"
+        }
+      },
+      {
+        "id": "notebookExecutionOutline.failedForeground",
+        "description": "Label and icon color of the cell that failed and of the headers above it.",
+        "defaults": {
+          "dark": "#f14c4c",
+          "light": "#e51400",
+          "highContrast": "#f14c4c",
+          "highContrastLight": "#b5200d"
+        }
+      },
+      {
+        "id": "notebookExecutionOutline.queuedForeground",
+        "description": "Label and icon color of headers (and the cell) with queued cells, when notebookExecutionOutline.highlightQueued is on.",
+        "defaults": {
+          "dark": "#cca700",
+          "light": "#bf8803",
+          "highContrast": "#cca700",
+          "highContrastLight": "#895503"
+        }
+      }
+    ],
+    "configuration": {
+      "title": "Notebook Execution Outline",
+      "properties": {
+        "notebookExecutionOutline.showMarkdownHeadersOnly": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show only markdown headers; when off, markdown cells without a header are listed too."
+        },
+        "notebookExecutionOutline.showCodeCells": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show code cells under their headers (the executing one gets a spinner)."
+        },
+        "notebookExecutionOutline.showCodeCellSymbols": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show symbols (functions, classes, variables) of code cells under them. Needs a language server such as Pylance."
+        },
+        "notebookExecutionOutline.highlightQueued": {
+          "type": "boolean",
+          "default": false,
+          "description": "Also highlight headers above queued (waiting) cells, in the queued color."
+        },
+        "notebookExecutionOutline.revealExecuting": {
+          "type": "boolean",
+          "default": true,
+          "description": "Scroll the tree to the executing cell when execution moves to a new cell."
+        },
+        "notebookExecutionOutline.followCursor": {
+          "type": "boolean",
+          "default": true,
+          "description": "Select the tree item of the notebook cell that has the cursor."
+        },
+        "notebookExecutionOutline.sortBy": {
+          "type": "string",
+          "enum": [
+            "position",
+            "name",
+            "category"
+          ],
+          "default": "position",
+          "enumDescriptions": [
+            "Notebook order",
+            "Alphabetically",
+            "Headers first, then code cells"
+          ],
+          "description": "Sort order of items in the tree."
+        }
+      }
+    },
+    "submenus": [
+      {
+        "id": "notebookExecutionOutline.filterMenu",
+        "label": "Filter",
+        "icon": "$(filter)"
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}
